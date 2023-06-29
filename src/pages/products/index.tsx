@@ -4,8 +4,8 @@ import NotSignedInText from "~/components/notSignedInMsg";
 import { api } from "~/utils/api";
 
 export default function MyProducts() {
-    const { user, isSignedIn } = useUser()
-    const { data, isLoading } = api.products.getUserProducts.useQuery()
+    const {  isSignedIn } = useUser()
+    const { data } = api.products.getUserProducts.useQuery()
     if (!data) return <div>Something went wrong</div>
     return (
         <>
@@ -20,7 +20,7 @@ export default function MyProducts() {
             </header>
             <main className="flex flex-col px-20 py-10">
                 {isSignedIn && <div className='flex flex-wrap gap-4'>
-                    {data.map(item => <div className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>)}
+                    {data.map(item => <div key={item.id} className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>)}
                 </div>}
                 {!isSignedIn && <div className="flex justify-center items-center"><NotSignedInText /></div>}
             </main>

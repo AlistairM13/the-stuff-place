@@ -31,7 +31,7 @@ export default function Home() {
         <section className='flex flex-col'>
           <h1>Products</h1>
           <div className='flex flex-wrap gap-4'>
-            {data.map(item => <div className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>)}
+            {data.map(item => <div key={item.id} className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>)}
           </div>
         </section>
       </main>

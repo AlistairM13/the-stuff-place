@@ -1,7 +1,7 @@
 import { useUser } from '@clerk/nextjs'
 import { SignInButton, SignOutButton } from "@clerk/clerk-react";
 import Link from "next/link";
-import { FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { api } from '~/utils/api';
 import { LoadingSpinner } from '../../components/loading';
 import NotSignedInText from '~/components/notSignedInMsg';
