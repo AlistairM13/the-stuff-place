@@ -3,7 +3,8 @@ import { SignInButton, SignOutButton } from "@clerk/clerk-react";
 import Link from "next/link";
 import { FormEvent, useState } from 'react';
 import { api } from '~/utils/api';
-import { LoadingSpinner } from '../components/loading';
+import { LoadingSpinner } from '../../components/loading';
+import NotSignedInText from '~/components/notSignedInMsg';
 
 
 export default function SellerPage() {
@@ -42,7 +43,7 @@ export default function SellerPage() {
           {isSignedIn && <SignOutButton />}
         </nav>
       </header>
-      <main className="flex flex-col  items-center  bg-black text-white">
+      <main className="flex flex-col  items-center">
         {isSignedIn && !isCreating &&
           <form onSubmit={(e) => formSubmit(e)} className="w-full px-10 sm:px-4 max-w-lg">
             <div className="flex flex-wrap -mx-3 ">
@@ -132,4 +133,3 @@ export default function SellerPage() {
   );
 }
 
-const NotSignedInText = () => <div>You need to have an account to sell stuff, sign up now!</div>
