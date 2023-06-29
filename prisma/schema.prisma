@@ -18,6 +18,7 @@ model Product {
     description String @db.VarChar(255)
     price String @db.VarChar(255)
     sellerId String
+    category String
 
     @@index([sellerId])
 }

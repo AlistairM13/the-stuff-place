@@ -1,10 +1,15 @@
 import { useUser } from '@clerk/nextjs'
 import { SignInButton, SignOutButton } from "@clerk/clerk-react";
 import Link from "next/link";
+import { api } from '~/utils/api';
 
 export default function Home() {
-  const { user, isSignedIn } = useUser()
-  console.log(user);
+  const { isSignedIn } = useUser()
+  const { data, isLoading: productsLoading } = api.products.getAll.useQuery()
+
+  if (productsLoading) return <div>Loading...</div>
+
+  if (!data) return <div>Something went wrong</div>
 
   return (
     <>
@@ -17,8 +22,16 @@ export default function Home() {
           {isSignedIn && <SignOutButton />}
         </nav>
       </header>
-      <main className="flex  flex-col bg-white text-white">
-
+      <main className="flex  flex-col text-white px-20 py-10">
+        <section className='flex bg-slate-900'>
+          <div>Category here</div>
+        </section>
+        <section className='flex flex-col'>
+          <h1>Products</h1>
+          <div className='flex flex-wrap gap-4'>
+            {[...data, ...data].map(item => <div className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>)}
+          </div>
+        </section>
       </main>
     </>
   );
