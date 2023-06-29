@@ -10,6 +10,26 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+model Post {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    content   String   @db.VarChar(255)
+    authorId  String
+
+    @@index([authorId])
+}
+
+model Todo {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    title String @db.VarChar(255)
+    content String @db.VarChar(255)
+    isDone Boolean @default(false)
+    userId String
+
+    @@index([userId])
+}
+
 
 model Product {
     id        String   @id @default(cuid())
