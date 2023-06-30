@@ -8,10 +8,11 @@ export const productRouter = createTRPCRouter({
   }),
 
   sell: privateProcedure.input(z.object({
-    price: z.string(),
-    productName: z.string(),
-    description: z.string(),
-    category: z.string()
+    price: z.string().min(1, "Price must atleast be a single digit"),
+    productName: z.string().min(5, "Product name must contain at least 5 character(s)").max(30, "Product name must be atmost 30 character(s)"),
+    description: z.string().min(5, "Product description must contain at least 5 character(s)").max(30, "Product description must be atmost 30 character(s)"),
+    category: z.string(),
+    imageUrl: z.string().min(1, "Please upload an image of what you are selling")
   })).mutation(async ({ ctx, input }) => {
     const sellerId = ctx.userId
     const product = await ctx.prisma.product.create({
@@ -20,6 +21,7 @@ export const productRouter = createTRPCRouter({
         name: input.productName,
         description: input.description,
         price: input.price,
+        imageUrl: input.imageUrl,
         sellerId: sellerId
       }
     })

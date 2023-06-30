@@ -2,6 +2,7 @@ import { useUser } from '@clerk/nextjs'
 import { SignInButton, SignOutButton } from "@clerk/clerk-react";
 import Link from "next/link";
 import { api } from '~/utils/api';
+import Image from 'next/image';
 
 export default function Home() {
   const { isSignedIn, isLoaded } = useUser()
@@ -32,8 +33,9 @@ export default function Home() {
           <h1>Products</h1>
           <div className='flex flex-wrap gap-4'>
             {data.map(item =>
-              <Link href={`/products/${item.id}`}>
-                <div key={item.id} className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>
+              <Link key={item.id} href={`/products/${item.id}`} className='relative h-60 w-60 rounded-lg'>
+                <Image src={item.imageUrl} alt="" fill={true} className='object-cover rounded-lg' />
+                <div className='absolute top-0 right-0 h-60 w-60 bg-transparent text-transparent transition-all duration-300  hover:bg-black/80 hover:text-white flex justify-center items-center'>{item.name}</div>
               </Link>
             )}
           </div>

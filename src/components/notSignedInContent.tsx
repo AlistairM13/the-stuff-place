@@ -12,7 +12,7 @@ const NotSignedInContent = () => {
             </nav>
         </header>
         <main className="flex flex-col ">
-            <div className="flex justify-center items-center">You don't have an acount to sell stuff, sign up now!</div>
+            <div className="flex justify-center items-center">You don&apos;t have an acount to sell stuff, sign up now!</div>
         </main>
     </>
 }
