@@ -43,3 +43,13 @@ model Product {
 
   @@index([sellerId])
 }
+
+model Order {
+  id        String @id @default(cuid())
+  buyerId   String
+  buyerName String
+  sellerId  String
+  productId String
+
+  @@index([productId])
+}

@@ -3,6 +3,7 @@ import { SignInButton, SignOutButton } from "@clerk/clerk-react";
 import Link from "next/link";
 import { api } from '~/utils/api';
 import Image from 'next/image';
+import SignInComponent from '~/components/SignInComponent';
 
 export default function Home() {
   const { isSignedIn, isLoaded } = useUser()
@@ -16,15 +17,7 @@ export default function Home() {
 
   return (
     <>
-      <header className="flex justify-between py-10 px-20">
-        <div>The Stuff Store</div>
-        <nav className="flex gap-4">
-          <Link href="/sell">Sell Product</Link>
-          <Link href="/products">My Products</Link>
-          {!isSignedIn && <SignInButton />}
-          {isSignedIn && <SignOutButton />}
-        </nav>
-      </header>
+      <SignInComponent isSignedIn={isSignedIn} />
       <main className="flex  flex-col text-white px-20 py-10">
         <section className='flex bg-slate-900'>
           <div>Category here</div>
