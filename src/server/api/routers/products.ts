@@ -1,9 +1,12 @@
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from 'zod'
+import { TRPCError } from "@trpc/server";
+
 export const productRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.product.findMany();
   }),
+
   sell: privateProcedure.input(z.object({
     price: z.string(),
     productName: z.string(),
@@ -22,12 +25,21 @@ export const productRouter = createTRPCRouter({
     })
     return product
   }),
-  getUserProducts: privateProcedure.query(({ ctx }) => {
+
+  getUserProducts: privateProcedure.query(async ({ ctx }) => {
     const userId = ctx.userId
-    const products = ctx.prisma.product.findMany({
+    const products = await ctx.prisma.product.findMany({
       where: { sellerId: userId },
-      orderBy: [{createdAt:"desc"}]
+      orderBy: [{ createdAt: "desc" }]
     })
     return products
+  }),
+
+  getProductById: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const product = await ctx.prisma.product.findUnique({ where: { id: input } })
+    if (!product) throw new TRPCError({ code: "NOT_FOUND" })
+
+    return product
   })
+
 });

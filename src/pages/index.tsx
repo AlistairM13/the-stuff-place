@@ -5,10 +5,10 @@ import { api } from '~/utils/api';
 
 export default function Home() {
   const { isSignedIn, isLoaded } = useUser()
-  const {data, isLoading:productsLoading}  = api.products.getAll.useQuery()
+  const { data, isLoading: productsLoading } = api.products.getAll.useQuery()
 
 
-  if(!isLoaded) return <div/>
+  if (!isLoaded) return <div />
   if (productsLoading) return <div>Loading...</div>
 
   if (!data) return <div>Something went wrong</div>
@@ -31,7 +31,11 @@ export default function Home() {
         <section className='flex flex-col'>
           <h1>Products</h1>
           <div className='flex flex-wrap gap-4'>
-            {data.map(item => <div key={item.id} className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>)}
+            {data.map(item =>
+              <Link href={`/products/${item.id}`}>
+                <div key={item.id} className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>
+              </Link>
+            )}
           </div>
         </section>
       </main>

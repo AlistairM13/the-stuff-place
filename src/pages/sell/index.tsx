@@ -1,20 +1,24 @@
 import { useUser } from '@clerk/nextjs'
-import { SignInButton, SignOutButton } from "@clerk/clerk-react";
+import { SignOutButton } from "@clerk/clerk-react";
 import Link from "next/link";
 import { type FormEvent, useState } from 'react';
 import { api } from '~/utils/api';
 import { LoadingSpinner } from '../../components/loading';
-import NotSignedInText from '~/components/notSignedInMsg';
+import NotSignedInContent from '~/components/notSignedInContent';
 
 
 export default function SellerPage() {
   const { isSignedIn } = useUser()
+
+  if (!isSignedIn) return <NotSignedInContent />
+
   const [product, setProduct] = useState({
     productName: "",
     price: "",
     category: "Clothes",
     description: ""
   })
+
   const { mutate: sellProduct, isLoading: isCreating } = api.products.sell.useMutation({
     onSuccess: () => {
       setProduct({
@@ -25,12 +29,11 @@ export default function SellerPage() {
       })
     }
   })
+
   function formSubmit(e?: FormEvent<HTMLFormElement>) {
     e?.preventDefault()
     sellProduct(product)
   }
-
-
 
   return (
     <>
@@ -39,12 +42,11 @@ export default function SellerPage() {
         <nav className="flex gap-4">
           <Link href="/sell">Sell Product</Link>
           <Link href="/products">My Products</Link>
-          {!isSignedIn && <SignInButton />}
-          {isSignedIn && <SignOutButton />}
+          <SignOutButton />
         </nav>
       </header>
       <main className="flex flex-col  items-center">
-        {isSignedIn && !isCreating &&
+        {!isCreating &&
           <form onSubmit={(e) => formSubmit(e)} className="w-full px-10 sm:px-4 max-w-lg">
             <div className="flex flex-wrap -mx-3 ">
               <div className="w-full px-3">
@@ -127,7 +129,6 @@ export default function SellerPage() {
           </form>
         }
         {isCreating && <div className='flex justify-center items-center mt-20'><LoadingSpinner size={60} /></div>}
-        {!isSignedIn && <NotSignedInText />}
       </main>
     </>
   );
