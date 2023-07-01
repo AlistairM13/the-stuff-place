@@ -68,8 +68,7 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
         </div>
         {user.id == product.sellerId && ordersLoading && <div>Loading orders...</div>}
         {orders && <div className="flex gap-3">{orders.map(order =>
-          <div className="flex flex-col">
-
+          <div key={order.buyerId} className="flex flex-col">
             <div>{dayjs(order.createdAt).fromNow()}</div>
             <div>{order.buyerName}</div>
           </div>
