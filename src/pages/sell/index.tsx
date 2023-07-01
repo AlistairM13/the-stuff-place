@@ -3,7 +3,7 @@ import { type FormEvent, useState } from 'react';
 import { api } from '~/utils/api';
 import { LoadingSpinner } from '../../components/loading';
 import { UploadButton } from "@uploadthing/react";
-import { OurFileRouter } from "~/server/uploadthing";
+import { type OurFileRouter } from "~/server/uploadthing";
 import Image from 'next/image';
 import { toast } from 'react-hot-toast'
 import SignInComponent from '~/components/SignInComponent';
@@ -127,11 +127,14 @@ export default function SellerPage() {
               <UploadButton<OurFileRouter>
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {
-                  if (!res || !res[0]) return
-                  setProduct(prevItems => {
-                    return { ...prevItems, imageUrl: res[0]!.fileUrl }
-                  })
-                }}
+                  if (res && res[0]) {
+                    const url = res[0].fileUrl
+                    setProduct(prevItems => {
+                      return { ...prevItems, imageUrl: url }
+                    })
+                  }
+                }
+                }
                 onUploadError={(error: Error) => {
                   alert(`ERROR! ${error.message}`);
                 }}
