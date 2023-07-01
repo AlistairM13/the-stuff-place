@@ -1,5 +1,4 @@
 import { useUser } from '@clerk/nextjs'
-import { SignInButton, SignOutButton } from "@clerk/clerk-react";
 import Link from "next/link";
 import { api } from '~/utils/api';
 import Image from 'next/image';
@@ -8,7 +7,6 @@ import SignInComponent from '~/components/SignInComponent';
 export default function Home() {
   const { isSignedIn, isLoaded } = useUser()
   const { data, isLoading: productsLoading } = api.products.getAll.useQuery()
-
 
   if (!isLoaded) return <div />
   if (productsLoading) return <div>Loading...</div>

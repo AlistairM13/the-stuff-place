@@ -1,4 +1,4 @@
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import SignInComponent from "~/components/SignInComponent";
 import { api } from "~/utils/api";
 

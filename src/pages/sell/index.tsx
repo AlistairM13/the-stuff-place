@@ -1,6 +1,4 @@
 import { useUser } from '@clerk/nextjs'
-import { SignOutButton } from "@clerk/clerk-react";
-import Link from "next/link";
 import { type FormEvent, useState } from 'react';
 import { api } from '~/utils/api';
 import { LoadingSpinner } from '../../components/loading';
@@ -9,7 +7,6 @@ import { OurFileRouter } from "~/server/uploadthing";
 import Image from 'next/image';
 import { toast } from 'react-hot-toast'
 import SignInComponent from '~/components/SignInComponent';
-
 
 export default function SellerPage() {
   const { isSignedIn } = useUser()
@@ -122,8 +119,7 @@ export default function SellerPage() {
                         formSubmit()
                       }
                     }
-                  }
-                  }
+                  }}
                   className="appearance-none placeholder-slate-600 block w-full bg-gray-400 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="description" placeholder="Describe it further" />
               </div>
             </div>

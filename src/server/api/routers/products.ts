@@ -10,7 +10,7 @@ export const productRouter = createTRPCRouter({
   sell: privateProcedure.input(z.object({
     price: z.string().min(1, "Price must atleast be a single digit"),
     productName: z.string().min(5, "Product name must contain at least 5 character(s)").max(30, "Product name must be atmost 30 character(s)"),
-    description: z.string().min(5, "Product description must contain at least 5 character(s)").max(30, "Product description must be atmost 30 character(s)"),
+    description: z.string().min(1, "Product description should not be empty").max(60, "Product description must be atmost 60 character(s)"),
     category: z.string(),
     imageUrl: z.string().min(1, "Please upload an image of what you are selling")
   })).mutation(async ({ ctx, input }) => {

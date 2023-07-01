@@ -45,7 +45,8 @@ model Product {
 }
 
 model Order {
-  id        String @id @default(cuid())
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
   buyerId   String
   buyerName String
   sellerId  String
