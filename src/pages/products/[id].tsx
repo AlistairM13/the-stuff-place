@@ -8,9 +8,9 @@ import superjson from "superjson";
 import { toast } from "react-hot-toast";
 import SignInComponent from "~/components/SignInComponent";
 import Image from "next/image";
-
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { Order } from "@prisma/client";
 dayjs.extend(relativeTime)
 
 const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
@@ -50,32 +50,69 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
   return (
     <>
       <SignInComponent isSignedIn={!!isSignedIn} />
-      <main className="flex flex-col items-center px-20 py-10">
-        <div className="flex w-5/6 gap-10  mb-10 flex-wrap h-96 justify-center">
+      <main className="flex flex-col px-5 items-center sm:px-20 py-10">
+
+        <section className="flex w-5/6  gap-10 mb-10  flex-wrap justify-center">
           <Image src={product.imageUrl} alt="product picture" height={100} width={300} style={{ objectFit: "cover" }} />
-          <div className="flex flex-col justify-between ">
+          <div className="flex flex-col justify-between">
             <div>
-              <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-              <p className="text-lg mb-1">{`Description: ${product.description}`}</p>
-              <p className="text-lg mb-1">{`Price: $${product.price}`}</p>
+              <h1 className="text-xl sm:text-3xl font-bold mb-2">{product.name}</h1>
+              <p className="sm:text-lg mb-1">{`Description: ${product.description}`}</p>
+              <p className="sm:text-lg mb-2">{`Price: $${product.price}`}</p>
               <p className="bg-blue-900 rounded-full text-center mb-4 w-32">{product.category}</p>
               <p className="font-thin ">{`Posted ~${dayjs(product.createdAt).fromNow()}`}</p>
             </div>
-            {isSignedIn && user.id != product.sellerId &&
-              <button className="bg-blue-800 hover:bg-blue-500 rounded-lg py-4" onClick={placeOrder} >Place order</button>
-            }
           </div>
-        </div>
-        {user.id == product.sellerId && ordersLoading && <div>Loading orders...</div>}
-        {orders && <div className="flex gap-3">{orders.map(order =>
-          <div key={order.buyerId} className="flex flex-col">
-            <div>{dayjs(order.createdAt).fromNow()}</div>
-            <div>{order.buyerName}</div>
-          </div>
-        )}</div>}
-        {user.id == product.sellerId && orders && orders.length == 0 && <div>No Orders found</div>}
+        </section>
+
+        <section className="flex w-full sm:w-1/2 flex-col">
+          <h2 className="py-4 text-xl font-bold sm:text-3xl">Orders</h2>
+          {isSignedIn && user.id != product.sellerId &&
+            <button className="bg-blue-800 hover:bg-blue-500 rounded-lg py-4" onClick={placeOrder} >Place order</button>
+          }
+          {user.id == product.sellerId && ordersLoading && <div>Loading orders...</div>}
+          {orders && <TableOfOrders orders={orders} />}
+          {user.id == product.sellerId && orders && orders.length == 0 && <div>No Orders found</div>}
+        </section>
       </main>
     </>
+  )
+}
+
+const TableOfOrders = (props: { orders: Order[] }) => {
+  return (
+
+    <div className="relative overflow-x-auto rounded-lg">
+      <table className="w-full text-sm text-left text-gray-400">
+        <thead className="text-xs uppercase bg-gray-700 text-gray-400">
+          <tr>
+            <th scope="col" className="px-6 py-3">
+              Index
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Buyer Name
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Time since order
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.orders.map((order, index) => <tr key={order.buyerId} className="border-b bg-gray-900 border-gray-700">
+            <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap text-white">
+              {index + 1}
+            </th>
+            <td className="px-6 py-4">
+              {order.buyerName}
+            </td>
+            <td className="px-6 py-4">
+              {dayjs(order.createdAt).fromNow()}
+            </td>
+          </tr>)}
+        </tbody>
+      </table>
+    </div>
+
   )
 }
 
@@ -83,7 +120,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: { prisma, userId: null },
-    transformer: superjson, // optional - adds superjson serialization
+    transformer: superjson,
   });
 
   const id = context.params?.id

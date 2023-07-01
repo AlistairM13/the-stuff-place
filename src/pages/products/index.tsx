@@ -1,4 +1,5 @@
 import { useUser } from "@clerk/nextjs";
+import Product from "~/components/Product";
 import SignInComponent from "~/components/SignInComponent";
 import { api } from "~/utils/api";
 
@@ -17,7 +18,9 @@ export default function MyProducts() {
             <SignInComponent isSignedIn />
             <main className="flex flex-col px-20 py-10">
                 {isSignedIn && <div className='flex flex-wrap gap-4'>
-                    {data.map(item => <div key={item.id} className='h-32 w-32 bg-slate-800 flex justify-center items-center'>{item.name}</div>)}
+                    {data.map(product =>
+                        <Product key={product.id} product={product} />
+                    )}
                 </div>}
             </main>
         </>

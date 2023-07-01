@@ -1,7 +1,7 @@
 import { useUser } from '@clerk/nextjs'
 import { type FormEvent, useState } from 'react';
 import { api } from '~/utils/api';
-import { LoadingSpinner } from '../../components/loading';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { UploadButton } from "@uploadthing/react";
 import { type OurFileRouter } from "~/server/uploadthing";
 import Image from 'next/image';
