@@ -13,6 +13,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import { Order } from "@prisma/client";
 dayjs.extend(relativeTime)
 
+
 const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
 
   const { user, isSignedIn } = useUser()
@@ -32,11 +33,13 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
       }
     }
   })
-  if (!user) return <SignInComponent isSignedIn={false} />
+
+
 
   const { data: orders, isLoading: ordersLoading } = api.orders.getOrdersOnProduct.useQuery(id)
 
   const placeOrder = () => {
+    if (!user) return
     mutate({
       buyerId: user.id,
       productId: id,
@@ -47,6 +50,7 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
 
   if (productLoading) return <div>Loading</div>
   if (!product) return <div>404</div>
+
   return (
     <>
       <SignInComponent isSignedIn={!!isSignedIn} />
@@ -62,17 +66,16 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
               <p className="bg-blue-900 rounded-full text-center mb-4 w-32">{product.category}</p>
               <p className="font-thin ">{`Posted ~${dayjs(product.createdAt).fromNow()}`}</p>
             </div>
+            {isSignedIn && user.id != product.sellerId &&
+              <button className="bg-blue-800 hover:bg-blue-500 rounded-lg py-4" onClick={placeOrder} >Place order</button>
+            }
           </div>
         </section>
 
         <section className="flex w-full sm:w-1/2 flex-col">
-          <h2 className="py-4 text-xl font-bold sm:text-3xl">Orders</h2>
-          {isSignedIn && user.id != product.sellerId &&
-            <button className="bg-blue-800 hover:bg-blue-500 rounded-lg py-4" onClick={placeOrder} >Place order</button>
-          }
-          {user.id == product.sellerId && ordersLoading && <div>Loading orders...</div>}
-          {orders && <TableOfOrders orders={orders} />}
-          {user.id == product.sellerId && orders && orders.length == 0 && <div>No Orders found</div>}
+
+          {isSignedIn && user.id == product.sellerId && ordersLoading && <div className="w-full text-center">Loading orders...</div>}
+          {isSignedIn && user.id == product.sellerId && orders && <TableOfOrders orders={orders} />}
         </section>
       </main>
     </>
@@ -80,9 +83,16 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
 }
 
 const TableOfOrders = (props: { orders: Order[] }) => {
+  if (props.orders.length == 0) {
+    return <>
+      <h2 className="py-4 text-xl font-bold sm:text-3xl">Orders</h2>
+      <div>No Orders found</div>
+    </>
+  }
   return (
 
     <div className="relative overflow-x-auto rounded-lg">
+      <h2 className="py-4 text-xl font-bold sm:text-3xl">Orders</h2>
       <table className="w-full text-sm text-left text-gray-400">
         <thead className="text-xs uppercase bg-gray-700 text-gray-400">
           <tr>
