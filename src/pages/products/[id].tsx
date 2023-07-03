@@ -10,7 +10,7 @@ import SignInComponent from "~/components/SignInComponent";
 import Image from "next/image";
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { Order } from "@prisma/client";
+import { type Order } from "@prisma/client";
 dayjs.extend(relativeTime)
 
 
@@ -36,7 +36,7 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
 
 
 
-  const { data: orders, isLoading: ordersLoading } = api.orders.getOrdersOnProduct.useQuery(id)
+  const { data: orders, isLoading: ordersLoading } = api.orders.getOrdersOnProduct.useQuery({id:id, productSellerId:product.sellerId})
 
   const placeOrder = () => {
     if (!user) return
