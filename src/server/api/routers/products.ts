@@ -3,8 +3,18 @@ import { z } from 'zod'
 import { TRPCError } from "@trpc/server";
 
 export const productRouter = createTRPCRouter({
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.product.findMany();
+  getAll: publicProcedure.input(z.object({
+    categories: z.array(z.string())
+  })).query(({ ctx, input }) => {
+    
+    if (input.categories.length == 0) return ctx.prisma.product.findMany();
+    return ctx.prisma.product.findMany({
+      where: {
+        category: {
+          in: input.categories
+        }
+      }
+    })
   }),
 
   sell: privateProcedure.input(z.object({

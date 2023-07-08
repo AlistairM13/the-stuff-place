@@ -55,19 +55,18 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
     <>
       <SignInComponent isSignedIn={!!isSignedIn} />
       <main className="flex flex-col px-5 items-center sm:px-20 py-10">
-
         <section className="flex w-5/6  gap-10 mb-10  flex-wrap justify-center">
-          <Image src={product.imageUrl} alt="product picture" height={100} width={300} style={{ objectFit: "cover" }} />
+          <Image src={product.imageUrl} alt="product picture" height={100} width={300} style={{ objectFit: "cover", borderRadius: 10 }} />
           <div className="flex flex-col justify-between">
             <div>
               <h1 className="text-xl sm:text-3xl font-bold mb-2">{product.name}</h1>
               <p className="sm:text-lg mb-1">{`Description: ${product.description}`}</p>
               <p className="sm:text-lg mb-2">{`Price: $${product.price}`}</p>
-              <p className="bg-blue-900 rounded-full text-center mb-4 w-32">{product.category}</p>
+              <p className="bg-blue-900 rounded-full font-thin text-center mb-4 w-32">{product.category}</p>
               <p className="font-thin ">{`Posted ~${dayjs(product.createdAt).fromNow()}`}</p>
             </div>
             {isSignedIn && user.id != product.sellerId &&
-              <button className="bg-blue-800 hover:bg-blue-500 rounded-lg py-4" onClick={placeOrder} >Place order</button>
+              <button className="bg-blue-600 hover:bg-blue-800 rounded-lg py-3" onClick={placeOrder} >Place order</button>
             }
           </div>
         </section>

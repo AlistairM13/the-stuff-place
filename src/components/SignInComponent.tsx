@@ -8,8 +8,8 @@ export default function SignInComponent(props: { isSignedIn: boolean }) {
     const [isMenuShowing, setIsMenuShowing] = React.useState(false)
     return (
         <>
-            <header className="flex justify-between  mx-4 text-xl text-gray-400 sm:mx-20">
-                <Link href="/" className='hover:scale-110 my-10 uppercase  font-bold hover:text-white transition-all duration-300'>The Stuff Store</Link>
+            <header className="flex sm:sticky sm:top-0 bg-slate-800  justify-between text-xl text-gray-400 sm:px-20">
+                <Link href="/" className=' hover:scale-110 my-10 uppercase  font-bold hover:text-white transition-all duration-300'>The Stuff Store</Link>
                 <nav className="hidden md:flex my-10 gap-4">
                     <Link href="/sell" className='hover:scale-110 hover:text-white transition-all duration-300'>Sell Product</Link>
                     <Link href="/products" className='hover:scale-110 hover:text-white transition-all duration-300'>My Products</Link>
@@ -22,13 +22,13 @@ export default function SignInComponent(props: { isSignedIn: boolean }) {
                 <div onClick={() => setIsMenuShowing(!isMenuShowing)} className='my-10 block md:hidden'>
                     {isMenuShowing ? <AiOutlineClose size={25} strokeWidth={25} className='bg-gray-600  h-9 w-9 p-2 rounded-full' /> : <AiOutlineMenu size={25} strokeWidth={25} className='h-9 w-9 p-2' />}
                 </div>
-                
+
                 <div className={isMenuShowing ? `fixed uppercase flex justify-between flex-col z-10 left-0 w-[60%] h-full bg-black border-l border-l-gray-800 ease-in duration-300` : "fixed left-[-100%]"}>
                     <div className='flex flex-col'>
-                        <Link href="/" className='font-bold mt-10 ml-10 text-white'>The Stuff Store</Link>
+                        <Link href="/" onClick={() => setIsMenuShowing(false)} className='font-bold mt-10 ml-10 text-white'>The Stuff Store</Link>
                         <nav className="flex flex-col text-sm  pl-4 gap-4 mt-14 ">
-                            <Link href="/sell" className='text-white p-4 border-b border-b-gray-500'>Sell Product</Link>
-                            <Link href="/products" className='text-white p-4 border-b border-b-gray-500'>My Products</Link>
+                            <Link href="/sell" onClick={() => setIsMenuShowing(false)} className='text-white p-4 border-b border-b-gray-500'>Sell Product</Link>
+                            <Link href="/products" onClick={() => setIsMenuShowing(false)} className='text-white p-4 border-b border-b-gray-500'>My Products</Link>
                         </nav>
                     </div>
                     <div className='text-white m-10 align-bottom font-semibold'>

@@ -48,12 +48,12 @@ export default function SellerPage() {
   return (
     <>
       <SignInComponent isSignedIn={!!isSignedIn} />
-      {isSignedIn && <main className="flex flex-col items-center">
+      {isSignedIn && <main className="flex mt-10 flex-col items-center">
         {!isCreating &&
           <form onSubmit={(e) => formSubmit(e)} className="w-full px-10 sm:px-4 pb-5 max-w-lg">
             <div className="flex flex-wrap -mx-3 ">
               <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="productName">
+                <label className="block uppercase tracking-wide text-slate-600 text-xl font-bold mb-2" htmlFor="productName">
                   Product Name
                 </label>
                 <input
@@ -63,12 +63,16 @@ export default function SellerPage() {
                   }
                   )}
                   autoComplete='off'
-                  className="appearance-none placeholder-slate-600 block w-full bg-gray-400 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="productName" type="text" placeholder="What are you selling?" />
+                  autoFocus
+                  className="appearance-none placeholder-slate-600 block w-full bg-gray-400 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                  id="productName" 
+                  type="text" 
+                  placeholder="What are you selling?" />
               </div>
             </div>
             <div className="flex flex-wrap -mx-3  mb-4">
               <div className="w-full md:w-1/2 px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">
+                <label className="block uppercase tracking-wide text-slate-600 text-xl font-bold mb-2" htmlFor="price">
                   Price
                 </label>
                 <input
@@ -82,7 +86,7 @@ export default function SellerPage() {
                   className="appearance-none placeholder-slate-600 block w-full bg-gray-400 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="price" type="number" placeholder="20 USD" />
               </div>
               <div className="w-full md:w-1/2 px-3 mb-2">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="category">
+                <label className="block uppercase tracking-wide text-slate-600 text-xl font-bold mb-2" htmlFor="category">
                   Category
                 </label>
                 <div className="relative">
@@ -102,7 +106,7 @@ export default function SellerPage() {
                 </div>
               </div>
               <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="description">
+                <label className="block uppercase tracking-wide text-slate-600 text-xl font-bold mb-2" htmlFor="description">
                   Description
                 </label>
                 <textarea
@@ -142,8 +146,8 @@ export default function SellerPage() {
               {product.imageUrl && <Image src={product.imageUrl} alt={`${product.productName} image`} width={500} height={500} className='mb-4' />}
             </div>
             <button
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Sell
+              className="w-full bg-blue-600 hover:bg-blue-700 ease-in duration-200 hover:scale-105 text-white font-bold py-3 rounded focus:outline-none focus:shadow-outline" type="submit">
+              List Product
             </button>
           </form>
         }
