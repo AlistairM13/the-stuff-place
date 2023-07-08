@@ -36,7 +36,7 @@ const SingleProductPage: NextPage<{ id: string }> = ({ id }) => {
 
 
 
-  const { data: orders, isLoading: ordersLoading } = api.orders.getOrdersOnProduct.useQuery({id:id, productSellerId:product.sellerId})
+  const { data: orders, isLoading: ordersLoading } = api.orders.getOrdersOnProduct.useQuery({ id: id, productSellerId: product.sellerId })
 
   const placeOrder = () => {
     if (!user) return
