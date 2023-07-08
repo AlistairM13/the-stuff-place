@@ -53,7 +53,7 @@ export default function Home() {
               <Disclosure.Panel className="px-4 bg-slate-900 mx-2 rounded-b-md pt-4 pb-2 text">
                 <div className='flex flex-wrap'>
                   {["Household essentials", "Electronics", "Clothes"].map(item =>
-                    <div className={`${selectedCat.includes(item) ? 'bg-blue-950' : ' border-2 border-blue-700'} mr-4 mb-2 p-2 rounded-lg cursor-pointer `} onClick={() => selectItem(item)} >{item}</div>
+                    <div key={item} className={`${selectedCat.includes(item) ? 'bg-blue-950' : ' border-2 border-blue-700'} mr-4 mb-2 p-2 rounded-lg cursor-pointer `} onClick={() => selectItem(item)} >{item}</div>
                   )}
                 </div>
                 <div className='flex justify-end '>
